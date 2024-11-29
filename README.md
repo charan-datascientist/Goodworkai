@@ -5,6 +5,56 @@ The **GenAI Filtering Application** is a Python-based project designed to proces
 
 ---
 
+# **Issues and Impact with base version**
+
+## **Category: Efficiency**
+- **Issue**: Redundant computations for key inference and matching.
+  - **Impact**: Increases execution time for larger datasets.
+- **Issue**: Repeated string matching for identical keys/values.
+  - **Impact**: Wasteful recalculation of scores.
+- **Issue**: Sequential data access in `choices`.
+  - **Impact**: Slows down matching as data size grows.
+
+---
+
+## **Category: Readability**
+- **Issue**: Core logic embedded in a loop, making it harder to follow.
+  - **Impact**: Reduces clarity and makes debugging difficult.
+- **Issue**: Hardcoded string matching method and threshold.
+  - **Impact**: Limits flexibility for tuning or experimenting with other methods.
+- **Issue**: Inconsistent variable and function naming conventions.
+  - **Impact**: Reduces readability and maintainability.
+
+---
+
+## **Category: Reliability**
+- **Issue**: Assumes `choices` and `genai_output` are always valid and complete.
+  - **Impact**: Risk of runtime errors when data is malformed or missing.
+- **Issue**: No error handling for invalid data or failed matches.
+  - **Impact**: Reduces robustness and leads to potential crashes.
+- **Issue**: Overreliance on fuzzy string matching without domain validation.
+  - **Impact**: Can lead to incorrect inferences in ambiguous cases.
+
+---
+
+## **Category: Scalability**
+- **Issue**: Nested loops and sequential access do not scale well for large datasets.
+  - **Impact**: Causes performance bottlenecks as data size grows.
+- **Issue**: No preprocessing of `choices` for optimized matching.
+  - **Impact**: Wastes computational resources during runtime.
+
+---
+
+## **Category: User Feedback**
+- **Issue**: Output lacks details about matching confidence or reasoning.
+  - **Impact**: Users cannot assess how reliable the inferred matches are.
+- **Issue**: No context provided for ambiguous or fallback inferences.
+  - **Impact**: Leaves users confused about why a key or value was inferred.
+
+---
+
+# **New Solution Implemented & Recommendations**
+
 ## **Libraries**
 The project leverages the following libraries:
 - **fuzzy_match**: For performing lexical matching on input keys and values.
@@ -14,6 +64,7 @@ The project leverages the following libraries:
 - **wheel**: For creating distributable Python wheels.
 
 ---
+
 
 ## **Project Structure**
 The project is structured for clarity and modularity:
@@ -178,12 +229,18 @@ The initial implementation relied on a less efficient approach for processing an
   - Leveraged faster matching algorithms for large datasets.
 
 - **Performance Gains**:
-  - Reduced matching time by ~40% in complex scenarios.
+  - Reduced matching time in complex scenarios.
   - Enhanced scalability with modular utilities.
+
+- **Parellel Processing**:
+  - Used ThreadPoolExecutor to process scenarios concurrently, improving performance for large datasets.
+
+- **Exception Handling**:
+  - Added error handling for downloading choices, processing scenarios, and key-value inference.
 
 ---
 
-# **What We Have Done for Modularity, Readability, and Maintainability**
+# **What I Have Done for Modularity, Readability, and Maintainability**
 
 1. **Modularity**:
    - Organized core logic into separate modules (`genai_output`, `choices`, `matcher`, etc.).

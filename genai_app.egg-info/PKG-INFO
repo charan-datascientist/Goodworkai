@@ -1,3 +1,19 @@
+Metadata-Version: 2.1
+Name: genai_app
+Version: 1.0.0
+Summary: A GenAI filtering application.
+Author-email: Charan <charan.datascientist@gmail.com>
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fuzzy_match==0.0.1
+Requires-Dist: pytest>=7.4.0
+Requires-Dist: urllib3>=1.26.0
+
 # **GenAI Filtering Application**
 
 ## **Overview**

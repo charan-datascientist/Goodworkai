@@ -1,0 +1,22 @@
+[project]
+name = "genai_app"
+version = "1.0.0"
+description = "A GenAI filtering application."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Charan", email = "charan.datascientist@gmail.com" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "fuzzy_match==0.0.1",
+    "pytest>=7.4.0",
+    "urllib3>=1.26.0"
+]
+requires-python = ">=3.7"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"

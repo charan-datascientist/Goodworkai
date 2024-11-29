@@ -1,0 +1,65 @@
+2024-11-30 07:59:45,244 - INFO - Starting to process all scenarios...
+2024-11-30 07:59:45,245 - INFO - Fetching choices...
+2024-11-30 07:59:45,245 - INFO - Fetching fresh data from the HTTP endpoint...
+2024-11-30 07:59:45,423 - INFO - Choices data retrieved successfully.
+2024-11-30 07:59:45,423 - INFO - Preprocessing choices...
+2024-11-30 07:59:45,423 - INFO - Preprocessing choices...
+2024-11-30 07:59:45,423 - DEBUG - Preprocessed Promotion with 2 values.
+2024-11-30 07:59:45,423 - DEBUG - Preprocessed Sales_Channel with 3 values.
+2024-11-30 07:59:45,424 - DEBUG - Preprocessed State with 7 values.
+2024-11-30 07:59:45,424 - DEBUG - Preprocessed Category_Name with 5 values.
+2024-11-30 07:59:45,456 - DEBUG - Preprocessed Sub_Category_Name with 55 values.
+2024-11-30 07:59:45,457 - DEBUG - Preprocessed Chain with 2 values.
+2024-11-30 07:59:53,234 - DEBUG - Preprocessed Store with 1722 values.
+2024-11-30 08:00:04,000 - DEBUG - Preprocessed Supplier with 1731 values.
+2024-11-30 08:00:04,001 - DEBUG - Preprocessed Region with 17 values.
+2024-11-30 08:00:04,009 - DEBUG - Preprocessed Area with 67 values.
+2024-11-30 08:00:04,010 - DEBUG - Preprocessed Cluster with 22 values.
+2024-11-30 08:00:04,010 - DEBUG - Preprocessed Pack_Size with 3 values.
+2024-11-30 08:00:04,010 - INFO - Preprocessed all choices successfully.
+2024-11-30 08:00:04,010 - INFO - Processing scenario 0...
+2024-11-30 08:00:04,011 - INFO - Scenario 0 processed successfully.
+2024-11-30 08:00:04,011 - INFO - 
+Scenario 0
+2024-11-30 08:00:04,011 - INFO - Fixed Output: {'State': 'State_7', 'Pack_Size': 'Pack_Size_3', 'Category_Name': 'Category_Name_5'}
+2024-11-30 08:00:04,011 - INFO - Output Message:
+Infering key value from tate_7 to State_7
+Infering key value from PackSize_3 to Pack_Size_3
+Infering key value from Categor_name_5 to Category_Name_5
+
+2024-11-30 08:00:04,011 - INFO - Processing scenario 1...
+2024-11-30 08:00:04,023 - INFO - Scenario 1 processed successfully.
+2024-11-30 08:00:04,023 - INFO - 
+Scenario 1
+2024-11-30 08:00:04,024 - INFO - Fixed Output: {'Sub_Category_Name': 'Sub_Category_Name_45', 'Area': 'Area_29', 'Sales_Channel': 'Sales_Channel_1'}
+2024-11-30 08:00:04,024 - INFO - Output Message:
+We do not recognise the key SaleChanel: infering the key as Sales_Channel
+Infering key value from SalesChane1 to Sales_Channel_1
+
+2024-11-30 08:00:04,024 - INFO - Processing scenario 2...
+2024-11-30 08:00:04,048 - INFO - Scenario 2 processed successfully.
+2024-11-30 08:00:04,048 - INFO - 
+Scenario 2
+2024-11-30 08:00:04,048 - INFO - Fixed Output: {'Sub_Category_Name': 'Sub_Category_Name_49', 'Store': 'Store_430'}
+2024-11-30 08:00:04,048 - INFO - Output Message:
+We do not recognise the key asdaSub_Category_Name: infering the key as Sub_Category_Name
+Infering key value from Sub_Category_Name49 to Sub_Category_Name_49
+Infering key value from Stre_304 to Store_430
+
+2024-11-30 08:00:04,048 - INFO - Processing scenario 3...
+2024-11-30 08:00:04,061 - INFO - Scenario 3 processed successfully.
+2024-11-30 08:00:04,061 - INFO - 
+Scenario 3
+2024-11-30 08:00:04,061 - INFO - Fixed Output: {'Supplier': 'Supplier_1026', 'Promotion': 'Promotion_2'}
+2024-11-30 08:00:04,061 - INFO - Output Message:
+We do not recognise the key Suplier: infering the key as Supplier
+
+2024-11-30 08:00:04,061 - INFO - Processing scenario 4...
+2024-11-30 08:00:04,070 - INFO - Scenario 4 processed successfully.
+2024-11-30 08:00:04,070 - INFO - 
+Scenario 4
+2024-11-30 08:00:04,070 - INFO - Fixed Output: {'Chain': 'Chain_2', 'Region': 'Region_14'}
+2024-11-30 08:00:04,070 - INFO - Output Message:
+We do not recognise the key Caihn: infering the key as Chain
+
+2024-11-30 08:00:04,070 - INFO - All scenarios processed successfully.

@@ -1,25 +1,18 @@
-# app/utils/matcher.py
-
 from fuzzy_match import match
-from genai_app.utils.logger import logger
 
-def infer_key(k, v, choices, method, threshold):
+
+def infer_key(value, choices, method, threshold):
     """
-    Infer the correct key and value from the GenAI output using lexical matching.
+    Infer the best match for a given value and choices.
+
+    Args:
+        value (str): Input value to match.
+        choices (list): List of valid options.
+        method (str): Matching method.
+        threshold (float): Confidence threshold.
+
+    Returns:
+        tuple: Best match, score.
     """
-    try:
-        if k in choices:
-            # Recognized key: Perform value matching
-            fixed_value, score = match.extract(v, choices[k], match_type=method)[0]
-            return k, fixed_value, score, None
-        else:
-            # Unrecognized key: Infer key and value
-            possible_output = {
-                k_possible: match.extract(v, choices[k_possible], match_type=method)[0]
-                for k_possible in choices.keys()
-            }
-            best_k, (best_v, score) = sorted(possible_output.items(), key=lambda item: item[1][1], reverse=True)[0]
-            return best_k, best_v, score, k
-    except Exception as e:
-        logger.error(f"Error during key-value inference: {e}")
-        raise
+    best_match, score = match.extract(value, choices, match_type=method)[0]
+    return best_match, score

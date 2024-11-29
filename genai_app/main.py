@@ -1,12 +1,9 @@
-# genai_app/main.py
-
-from concurrent.futures import ThreadPoolExecutor
-from genai_app.config import CONFIG, SCENARIOS, CHOICES_URL
+from genai_app.config import CONFIG, SCENARIOS
 from genai_app.genai_output import get_genai_output
 from genai_app.choices import get_choice_data, preprocess_choices
 from genai_app.utils.matcher import infer_key
 from genai_app.utils.logger import logger
-from genai_app.utils.validator import validate_scenario
+
 
 def process_scenario(scenario, choices, config):
     """
@@ -17,39 +14,59 @@ def process_scenario(scenario, choices, config):
         choices (dict): Valid key-value options.
         config (dict): Configuration settings.
     """
-    try:
-        validate_scenario(scenario, len(SCENARIOS))
-        genai_output = get_genai_output(scenario)
-        fixed_output = {}
-        output_message = ""
+    logger.info(f"Processing scenario {scenario}...")
+    genai_output = get_genai_output(scenario)
+    fixed_output = {}
+    output_message = ""
 
-        for k, v in genai_output.items():
-            inferred_key, inferred_value, score, original_key = infer_key(
-                k, v, choices, config["matching_method"], config["threshold"]
-            )
-            fixed_output[inferred_key] = inferred_value
-            if original_key:
-                output_message += f"Inferred key '{original_key}' as '{inferred_key}'.\n"
+    for k, v in genai_output.items():
+        if k in choices:
+            # If the key is recognized, infer the value
+            inferred_value, score = infer_key(v, choices[k], config["matching_method"], config["threshold"])
+            fixed_output[k] = inferred_value
             if score < config["threshold"]:
-                output_message += f"Inferred value '{v}' as '{inferred_value}'.\n"
+                output_message += f"Infering key value from {v} to {inferred_value}\n"
+        else:
+            # If the key is not recognized, infer the key and value
+            possible_keys = {
+                possible_key: infer_key(v, choices[possible_key], config["matching_method"], config["threshold"])
+                for possible_key in choices.keys()
+            }
+            best_key, (best_value, score) = max(possible_keys.items(), key=lambda x: x[1][1])
+            fixed_output[best_key] = best_value
+            output_message += f"We do not recognise the key {k}: infering the key as {best_key}\n"
+            if score < config["threshold"]:
+                output_message += f"Infering key value from {v} to {best_value}\n"
 
-        logger.info(f"Scenario {scenario} processed: {fixed_output}")
-        logger.debug(output_message)
+    logger.info(f"Scenario {scenario} processed successfully.")
+    logger.info(f"\nScenario {scenario}")
+    logger.info(f"Fixed Output: {fixed_output}")
+    logger.info(f"Output Message:\n{output_message}")
 
-    except Exception as e:
-        logger.error(f"Error processing scenario {scenario}: {e}")
 
 def process_all_scenarios():
-    """Process all GenAI scenarios."""
+    """
+    Process all GenAI scenarios.
+    """
+    logger.info("Starting to process all scenarios...")
     try:
-        choices = get_choice_data(CHOICES_URL)
+        # Fetch and preprocess choices with caching
+        logger.info("Fetching choices...")
+        choices = get_choice_data()
+        logger.info("Preprocessing choices...")
         preprocessed_choices = preprocess_choices(
-            choices, lambda v, values: infer_key(v, values, CONFIG["matching_method"], CONFIG["threshold"])
+            choices, lambda value, values: infer_key(value, values, CONFIG["matching_method"], CONFIG["threshold"])
         )
-        with ThreadPoolExecutor() as executor:
-            executor.map(lambda s: process_scenario(s, preprocessed_choices, CONFIG), range(len(SCENARIOS)))
+
+        # Process each scenario sequentially
+        for scenario in range(len(SCENARIOS)):
+            process_scenario(scenario, preprocessed_choices, CONFIG)
+
+        logger.info("All scenarios processed successfully.")
     except Exception as e:
-        logger.error(f"Error processing all scenarios: {e}")
+        logger.error(f"Error processing scenarios: {e}")
+
+
 
 if __name__ == "__main__":
     process_all_scenarios()

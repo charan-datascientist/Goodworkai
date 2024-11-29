@@ -1,3 +1,0 @@
-fuzzy_match==0.0.1
-pytest>=7.4.0
-urllib3>=1.26.0

@@ -232,8 +232,8 @@ The initial implementation relied on a less efficient approach for processing an
   - Reduced matching time in complex scenarios.
   - Enhanced scalability with modular utilities.
 
-- **Parellel Processing**:
-  - Used ThreadPoolExecutor to process scenarios concurrently, improving performance for large datasets.
+- **Parellel Processing**: (Not Implemented in this code)
+  - Use ThreadPoolExecutor to process scenarios concurrently, improving performance for large datasets.
 
 - **Exception Handling**:
   - Added error handling for downloading choices, processing scenarios, and key-value inference.
@@ -248,7 +248,7 @@ The initial implementation relied on a less efficient approach for processing an
 
 2. **Readability**:
    - Adopted PEP 8 coding standards.
-   - Used meaningful function names and added comments where necessary.
+   - Used meaningful function names and added comments, logs & docstrings where necessary.
 
 3. **Maintainability**:
    - Added a robust test suite using `pytest`.

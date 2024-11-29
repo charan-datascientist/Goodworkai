@@ -1,38 +1,26 @@
-# genai_app/choices.py
-
 import json
 import urllib.request
-from genai_app.utils.logger import logger
 import time
-from functools import lru_cache
-from genai_app.config import CACHE_TIMEOUT, CACHED_CHOICES, CACHE_TIMESTAMP
+from genai_app.config import CACHE_TIMEOUT, CACHED_CHOICES, CACHE_TIMESTAMP, CHOICES_URL
+from genai_app.utils.logger import logger
 
 
-def get_choice_data(url):
+def get_choice_data():
     """
-    Fetch choice data from a given URL with a timeout-based caching mechanism.
-
-    Args:
-        url (str): URL to fetch choice data.
+    Fetch choice data with caching mechanism.
 
     Returns:
         dict: Valid key-value options.
-
-    Raises:
-        RuntimeError: If data cannot be fetched.
-        ValueError: If JSON is invalid.
     """
     global CACHED_CHOICES, CACHE_TIMESTAMP
-
     current_time = time.time()
 
-    # Check if the cache is valid
     if CACHED_CHOICES is None or (current_time - CACHE_TIMESTAMP) > CACHE_TIMEOUT:
         logger.info("Fetching fresh data from the HTTP endpoint...")
         try:
-            with urllib.request.urlopen(url) as response:
+            with urllib.request.urlopen(CHOICES_URL) as response:
                 CACHED_CHOICES = json.loads(response.read().decode())
-                CACHE_TIMESTAMP = current_time  # Update the cache timestamp
+                CACHE_TIMESTAMP = current_time
             logger.info("Choices data retrieved successfully.")
         except urllib.error.URLError as e:
             logger.error(f"Failed to fetch choices data: {e}")
@@ -42,7 +30,6 @@ def get_choice_data(url):
             raise ValueError("Invalid JSON format.")
     else:
         logger.info("Using cached data.")
-
     return CACHED_CHOICES
 
 
@@ -57,8 +44,12 @@ def preprocess_choices(choices, matcher):
     Returns:
         dict: Preprocessed choices with scores.
     """
+    logger.info("Preprocessing choices...")
     preprocessed = {}
     for key, values in choices.items():
-        preprocessed[key] = {v: matcher(v, values)[0][1] for v in values}
-    logger.info("Choices data preprocessed.")
+        preprocessed[key] = {
+            value: matcher(value, values)[0][1] for value in values
+        }
+        logger.debug(f"Preprocessed {key} with {len(values)} values.")
+    logger.info("Preprocessed all choices successfully.")
     return preprocessed

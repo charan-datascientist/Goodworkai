@@ -1,12 +1,21 @@
-# genai_app/utils/logger.py
-
 import logging
 
 # Configure logger
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler()]
-)
+logger = logging.getLogger("GenAI")
+logger.setLevel(logging.DEBUG)
 
-logger = logging.getLogger(__name__)
+# Console handler for real-time logs
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_format = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+console_handler.setFormatter(console_format)
+
+# File handler for detailed logs
+file_handler = logging.FileHandler("output.log", mode="w")  # Overwrite file on each run
+file_handler.setLevel(logging.DEBUG)
+file_format = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(file_format)
+
+# Add handlers to the logger
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)

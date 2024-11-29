@@ -1,4 +1,4 @@
-# app/config.py
+# config.py
 
 CONFIG = {
     "matching_method": "jaro_winkler",  # Matching algorithm

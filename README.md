@@ -90,6 +90,7 @@ genai_app/                   # Root directory
 ├── pyproject.toml           # Build configuration
 ├── README.md                # Project documentation
 ├── LICENSE                  # License file
+├── output.log               # logger generated output file
 ├── requirements.txt         # Dependency list
 
 ```

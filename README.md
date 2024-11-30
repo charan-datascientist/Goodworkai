@@ -232,9 +232,6 @@ The initial implementation relied on a less efficient approach for processing an
   - Reduced matching time in complex scenarios.
   - Enhanced scalability with modular utilities.
 
-- **Parellel Processing**: (Not Implemented in this code)
-  - Use ThreadPoolExecutor to process scenarios concurrently, improving performance for large datasets.
-
 - **Exception Handling**:
   - Added error handling for downloading choices, processing scenarios, and key-value inference.
 
@@ -254,4 +251,16 @@ The initial implementation relied on a less efficient approach for processing an
    - Added a robust test suite using `pytest`.
    - Centralized configuration in `config.py`.
    - Built a modular project structure to allow future enhancements without disrupting existing functionality.
+
+---
+
+# Recommendation 1: Cache Preprocessed Choices
+Implement caching for **preprocessed_choices** alongside raw choice data to eliminate redundant computations. Once preprocessed, reuse the results within the cache timeout period, avoiding reprocessing for repeated requests. This optimization significantly improves efficiency by ensuring preprocessing happens only when raw choice data changes, reducing computational overhead in high-frequency use cases.
+
+---
+
+# Recommendation 2: Parallelize Using ThreadPool
+Introduce parallel processing via Python’s **ThreadPoolExecutor** to accelerate preprocessing and scenario handling. By distributing tasks like similarity matching across threads, the system can process multiple keys or scenarios concurrently. This reduces total execution time, optimizes CPU utilization, and ensures faster responses, especially for large datasets or high volumes of scenarios.
+
+
 ```
